@@ -8,17 +8,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SetTest {
     private Set set_1, set_2, set_3;
-    private int[] vertices_1, vertices_2, vertices_3;
-    private int n1, n2, n3;
 
     @BeforeEach
     void setUp() {
-        n1 = 4;
-        n2 = 4;
-        n3 = 3;
-        vertices_1 = new int[] {1, 2, 3, 4};
-        vertices_2 = new int[] {1, 2, 3, 4};
-        vertices_3 = new int[] {1, 2, 3};
+        int n1 = 4;
+        int n2 = 4;
+        int n3 = 3;
+        int[] vertices_1 = new int[]{1, 2, 3, 4};
+        int[] vertices_2 = new int[]{1, 2, 3, 4};
+        int[] vertices_3 = new int[]{1, 2, 3};
         set_1 = new Set(vertices_1, n1);
         set_2 = new Set(vertices_2, n2);
         set_3 = new Set(vertices_3, n3);
@@ -41,9 +39,21 @@ class SetTest {
     }
 
     @Test
-    void equals() {
+    void equalsTest() {
         // First two should be equal, last should not.
-        assertTrue(set_1.equals(set_2));
-        assertFalse(set_2.equals(set_3));
+        assertEquals(set_1, set_2);
+        assertNotEquals(set_2, set_3);
+    }
+
+    @Test
+    void subtractTest() {
+        // Test two subtractions.
+        Set subtracted_1 = set_1.subtract(set_3);
+        Set equality_1 = new Set(new int[]{4}, 1);
+        Set subtracted_2 = set_3.subtract(set_2);
+        Set equality_2 = new Set(new int[]{}, 0);
+        // Assert the correct responses.
+        assertEquals(subtracted_1, equality_1);
+        assertEquals(subtracted_2, equality_2);
     }
 }
