@@ -1,15 +1,18 @@
 package com.galliers;
 
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * For managing the generation of all subsets of vertices.
  *
  * @author Michael Galliers
  */
-public class SetBuilder {
+class SetBuilder {
+    private static int subset_i;
     private int[] vertices;
     private int n;
-    private static int subset_i;
 
     /**
      * Initially set the vertices and the number of them.
@@ -28,26 +31,34 @@ public class SetBuilder {
      *
      * @return Array of all subsets of the vertices.
      */
-    public Set[] generateSubsets() {
-        int sub_sets_n = n * n;
+    Set[] generateSubsets() {
+        // Number of subsets.
+        int sub_sets_n = (int) Math.pow(2, n);
         Set[] sub_sets = new Set[sub_sets_n];
         char[] B = new char[n];
         generateSubsets(B, n, sub_sets);
+        // Sort subsets by number of elements non-decreasing.
+        Arrays.sort(sub_sets, Comparator.comparingInt(Set::getN));
         return sub_sets;
     }
 
     /**
      * Generate all subsets of vertices recursively.
+     *
+     * @param B        Binary char array for generating all possible subsets.
+     * @param n        The number of elements remaining.
+     * @param sub_sets Array to store generated subsets.
      */
     private void generateSubsets(char[] B, int n, Set[] sub_sets) {
-        if (n <= 1) {
+        if (n < 1) {
+            // Convert binary array to a set.
             Set new_set = translateBinary(B);
             sub_sets[subset_i++] = new_set;
-        }
-        else {
-            B[this.n - n] = 0;
+        } else {
+            // Let binary array position be either a zero or one, recursively diminishing.
+            B[this.n - n] = '0';
             generateSubsets(B, n - 1, sub_sets);
-            B[this.n - n] = 1;
+            B[this.n - n] = '1';
             generateSubsets(B, n - 1, sub_sets);
         }
     }
@@ -56,7 +67,7 @@ public class SetBuilder {
      * Translate a binary array into a set.
      *
      * @param B The binary array.
-     * @return  The resulting set.
+     * @return The resulting set.
      */
     private Set translateBinary(char[] B) {
         int i, j = 0, cnt = 0;
@@ -71,6 +82,6 @@ public class SetBuilder {
                 vertices[j++] = this.vertices[i];
         }
         // Create set.
-        return new Set(vertices, n);
+        return new Set(vertices, cnt);
     }
 }
