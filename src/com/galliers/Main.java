@@ -68,7 +68,8 @@ public class Main {
                 P[vertex - 1].put(subset, min_k_choice);
             }
         }
-        // Print out the D and P arrays.
+        // Print out the D, W and P arrays.
+        printW(W, n);
         printD(D, n, subsets);
         printP(P, n, subsets);
         // Print out the optimal path.
@@ -121,6 +122,32 @@ public class Main {
             for (int j = 0; j < length - 1; j++)
                 System.out.printf(format + ".1f, ", D[i].get(subsets[j]));
             System.out.printf(format + ".1f", D[i].get(subsets[length - 1]));
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    /**
+     * Print out the W table.
+     *
+     * @param W The W table.
+     * @param n The dimension of that table.
+     */
+    private static void printW(double[][] W, int n) {
+        // Table title.
+        System.out.println("W Table");
+        // Print out column labels.
+        System.out.printf("%8s", "");
+        for (int i = 0; i < n - 1; i++)
+            System.out.printf("%10d", i + 1);
+        System.out.printf("%10d", n);
+        System.out.println("\n");
+        // Print out the rest of the table with row labels.
+        for (int i = 0; i < n; i++) {
+            System.out.printf("%8d  ", i + 1);
+            for (int j = 0; j < n - 1; j++)
+                System.out.printf("%8.1f, ", W[i][j]);
+            System.out.printf("%8.1f, ", W[i][n - 1]);
             System.out.println();
         }
         System.out.println();
