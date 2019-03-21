@@ -11,7 +11,7 @@ public class Main {
      * @param n The dimension of the adjacency matrix.
      * @return The shortest distance that can be obtained.
      */
-    private static double tspDynamic(double[][] W, int n) {
+    static double tspDynamic(double[][] W, int n) {
         // Initialize D and P tables.
         HashMap<Set, Double>[] D = new HashMap[n];
         HashMap<Set, Integer>[] P = new HashMap[n];
@@ -97,34 +97,64 @@ public class Main {
 
     /**
      * Print out the D table.
+     *
      * @param D       The D table.
      * @param n       The dimension of that table.
      * @param subsets Array of subsets for this problem.
      */
     private static void printD(HashMap<Set, Double>[] D, int n, Set[] subsets) {
+        // Table title.
+        System.out.println("D Table");
         int length = (int) Math.pow(2, n - 1);
+        // Figure out the format size.
+        String format = "%" + (subsets[length - 1].toString().length() + 2);
+        // Print out column labels.
+        System.out.printf(format + "s", "");
+        for (int i = 0; i < length - 1; i++)
+            System.out.printf(format + "s", subsets[i].toString());
+        System.out.printf(format + "s", subsets[length - 1].toString());
+        System.out.println("\n");
+        // Print out the rest of the table with row labels.
+        format = "%" + subsets[length - 1].toString().length();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < length; j++) {
-                System.out.printf("%10.1f, ", D[i].get(subsets[j]));
-            }
+            System.out.printf(format + "d  ", i + 1);
+            for (int j = 0; j < length - 1; j++)
+                System.out.printf(format + ".1f, ", D[i].get(subsets[j]));
+            System.out.printf(format + ".1f", D[i].get(subsets[length - 1]));
             System.out.println();
         }
+        System.out.println();
     }
 
     /**
      * Print out the P table.
+     *
      * @param D       The P table.
      * @param n       The dimension of that table.
      * @param subsets Array of subsets for this problem.
      */
     private static void printP(HashMap<Set, Integer>[] D, int n, Set[] subsets) {
+        // Table title.
+        System.out.println("P Table");
         int length = (int) Math.pow(2, n - 1);
+        // Figure out the format size.
+        String format = "%" + (subsets[length - 1].toString().length() + 2);
+        // Print out column labels.
+        System.out.printf(format + "s", "");
+        for (int i = 0; i < length - 1; i++)
+            System.out.printf(format + "s", subsets[i].toString());
+        System.out.printf(format + "s", subsets[length - 1].toString());
+        System.out.println("\n");
+        // Print out the rest of the table with row labels.
+        format = "%" + subsets[length - 1].toString().length();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < length; j++) {
-                System.out.printf("%5d, ", D[i].get(subsets[j]));
-            }
+            System.out.printf(format + "d  ", i + 1);
+            for (int j = 0; j < length - 1; j++)
+                System.out.printf(format + "d, ", D[i].get(subsets[j]));
+            System.out.printf(format + "d", D[i].get(subsets[length - 1]));
             System.out.println();
         }
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -141,9 +171,9 @@ public class Main {
                 {Double.POSITIVE_INFINITY, 7, 0, 8},
                 {6, 3, Double.POSITIVE_INFINITY, 0}
         };
-        HashMap[] D = new HashMap[]{new HashMap()};
-        HashMap[] P = new HashMap[]{new HashMap()};
-        int n = 4;
-        System.out.println(tspDynamic(W2, n));
+        int n1 = 5;
+        int n2 = 4;
+        System.out.println("Shortest Distance: " + tspDynamic(W1, n1) + "\n");
+        System.out.println("Shortest Distance: " + tspDynamic(W2, n2) + "\n");
     }
 }

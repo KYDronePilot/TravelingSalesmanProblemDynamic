@@ -4,10 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.galliers.Main.tspDynamic;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MainTest {
     private double[][] W1, W2;
+    private int n1, n2;
 
     @BeforeEach
     void setUp() {
@@ -24,6 +26,8 @@ class MainTest {
                 {Double.POSITIVE_INFINITY, 7, 0, 8},
                 {6, 3, Double.POSITIVE_INFINITY, 0}
         };
+        n1 = 5;
+        n2 = 4;
     }
 
     @AfterEach
@@ -32,6 +36,8 @@ class MainTest {
 
     @Test
     void tspDynamicTest() {
-
+        // Assert the shortest distances are correct.
+        assertEquals(tspDynamic(W1, n1), 14.0);
+        assertEquals(tspDynamic(W2, n2), 21.0);
     }
 }
